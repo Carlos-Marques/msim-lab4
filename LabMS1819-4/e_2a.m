@@ -7,9 +7,9 @@ load MarkovChain;
 
 [v, u] = eig('P');
 
-[~, i] = min(abs(U(:)-1));
+[~, i] = min(abs(u(:)-1));
 
-i = mod(i, size(U, 1));
+i = mod(i, size(u, 1));
 
 v_norm = v(:, i) / sum(v(:, i));
 

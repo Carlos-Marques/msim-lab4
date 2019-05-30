@@ -1,4 +1,4 @@
-%% Exercicio 2a
+%% Exercicio 2b
 %Reset do ambiente de trabalho
 close all;
 
