@@ -1,0 +1,222 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Exercicio 2b</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-06-02"><meta name="DC.source" content="e_2b.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Exercicio 2b</h1><pre class="codeinput"><span class="comment">%Reset do ambiente de trabalho</span>
+close <span class="string">all</span>;
+
+<span class="comment">%Potencia da fonte</span>
+Pw0 = 100;
+<span class="comment">%Desvio padrao</span>
+sig = 10^-1;
+
+<span class="comment">%Numero de medidas</span>
+M = 1000;
+
+No = round(v_norm.*M);
+a = zeros(sum(No), 2);
+k1 = 1;
+k2 = 0;
+
+<span class="comment">%Cria observacoes para cada ancora</span>
+<span class="keyword">for</span> i=1:size(No)
+  k2 = k2+No(i);
+  a(k1:k2,:) = repmat([nodePos(i,2) nodePos(i, 3)], No(i), 1);
+  k1 = k1 + No(i);
+<span class="keyword">end</span>
+
+<span class="comment">%Obtem a posicao da fonte</span>
+x = sourcePos';
+
+D = squareform(pdist([x zeros(size(x)) a']'));
+
+<span class="comment">%Calcula distancia entre fonte e a ancora</span>
+d = D(1, 3:end);
+<span class="comment">%Calcula normas das acoras</span>
+an = D(2, 3:end);
+
+<span class="comment">%Calcula potencia nas ancoras sem ruido</span>
+Pw = Pw0 ./ (d.^2);
+<span class="comment">%Aplica ruido</span>
+Pw = Pw.*exp(sig*rand(size(Pw)));
+QPw = 1e-2;
+<span class="comment">%Quantitiza as potencias</span>
+Pw = QPw*round(Pw/QPw);
+
+<span class="comment">%Aplica metodo dos minimos quadrados</span>
+A = [-2*repmat(Pw, [2 1]).*a'; -ones(size(Pw)); Pw]';
+b = (-Pw.*(an.^2))';
+
+z = A\b;
+xe = z(1:2);
+fprintf(<span class="string">'Distancia entre posicao real e calculada da fonte: %f\n'</span>, norm(x-xe));
+
+figure;
+
+plot(a*[1; 1i],<span class="string">'o'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Ancoras'</span>);
+hold <span class="string">all</span>;
+grid <span class="string">on</span>;
+plot(x'*[1; 1i],<span class="string">'x'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Real'</span>);
+plot(xe'*[1; 1i],<span class="string">'s'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Calculada'</span>);
+axis(<span class="string">'square'</span>)
+title(<span class="string">'Estimativa da posicao da fonte'</span>);
+legend(<span class="string">'Location'</span>, <span class="string">'northeastoutside'</span>);
+
+<span class="comment">% RLS formulation (one-shot)</span>
+RlsPar = struct(<span class="string">'lam'</span>,1);
+[e,w,RlsPar] = qrrls(A,b,RlsPar);
+fprintf(<span class="string">'Erro da Recursive Least Squares (one-shot): %f\n'</span>, norm(z-w));
+
+<span class="comment">% RLS formulation (incremental)</span>
+RlsPar = struct(<span class="string">'lam'</span>,1);
+<span class="keyword">for</span> i = 1:size(A,1)
+  [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
+<span class="keyword">end</span>
+fprintf(<span class="string">'Erro da Recursive Least Squares (incremental): %f\n'</span>, norm(z-w));
+</pre><pre class="codeoutput">Distancia entre posicao real e calculada da fonte: 0.952521
+Erro da Recursive Least Squares (one-shot): 0.000355
+Erro da Recursive Least Squares (incremental): 0.000355
+</pre><img vspace="5" hspace="5" src="e_2b_01.png" alt=""> <p><b>Comentarios:</b></p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Exercicio 2b
+%Reset do ambiente de trabalho
+close all;
+
+%Potencia da fonte
+Pw0 = 100;
+%Desvio padrao
+sig = 10^-1;
+
+%Numero de medidas
+M = 1000;
+
+No = round(v_norm.*M);
+a = zeros(sum(No), 2);
+k1 = 1;
+k2 = 0;
+
+%Cria observacoes para cada ancora
+for i=1:size(No)
+  k2 = k2+No(i);
+  a(k1:k2,:) = repmat([nodePos(i,2) nodePos(i, 3)], No(i), 1);
+  k1 = k1 + No(i);
+end
+
+%Obtem a posicao da fonte
+x = sourcePos';
+
+D = squareform(pdist([x zeros(size(x)) a']'));
+
+%Calcula distancia entre fonte e a ancora 
+d = D(1, 3:end);
+%Calcula normas das acoras
+an = D(2, 3:end);
+
+%Calcula potencia nas ancoras sem ruido
+Pw = Pw0 ./ (d.^2);
+%Aplica ruido
+Pw = Pw.*exp(sig*rand(size(Pw)));
+QPw = 1e-2;
+%Quantitiza as potencias
+Pw = QPw*round(Pw/QPw);
+
+%Aplica metodo dos minimos quadrados
+A = [-2*repmat(Pw, [2 1]).*a'; -ones(size(Pw)); Pw]';
+b = (-Pw.*(an.^2))';
+
+z = A\b;
+xe = z(1:2);
+fprintf('Distancia entre posicao real e calculada da fonte: %f\n', norm(x-xe));
+
+figure;
+
+plot(a*[1; 1i],'o', 'DisplayName', 'Ancoras'); 
+hold all;
+grid on;
+plot(x'*[1; 1i],'x', 'DisplayName', 'Real'); 
+plot(xe'*[1; 1i],'s', 'DisplayName', 'Calculada');
+axis('square')
+title('Estimativa da posicao da fonte');
+legend('Location', 'northeastoutside');
+
+% RLS formulation (one-shot)
+RlsPar = struct('lam',1);
+[e,w,RlsPar] = qrrls(A,b,RlsPar);
+fprintf('Erro da Recursive Least Squares (one-shot): %f\n', norm(z-w));
+
+% RLS formulation (incremental)
+RlsPar = struct('lam',1);
+for i = 1:size(A,1)
+  [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
+end
+fprintf('Erro da Recursive Least Squares (incremental): %f\n', norm(z-w));
+
+%%
+% *Comentarios:*
+% 
+##### SOURCE END #####
+--></body></html>

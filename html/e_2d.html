@@ -1,0 +1,666 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Exercicio 2d</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-06-02"><meta name="DC.source" content="e_2d.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Exercicio 2d</h1><pre class="codeinput"><span class="comment">%Reset do ambiente de trabalho</span>
+close <span class="string">all</span>;
+
+MarkovChainDraw();
+</pre><img vspace="5" hspace="5" src="e_2d_01.png" alt=""> <p><b>Comentarios:</b> Observando o grafo e analisando os pesos a ele associado podemos concluir que existem certos subconjuntos onde o token circula durante mais tempo.</p><p>Estes conjuntos sao constituidos pelos seguintes agentes:</p><div><ul><li><b>Subconjunto 1</b> : Agentes 5, 6, 11 e 15</li><li><b>Subconjunto 2</b> : Agentes 1, 7, 14, 16, 18, 20</li><li><b>Subconjunto 3</b> : Agentes 2, 3, 4, 13, 19</li><li><b>Subconjunto 4</b>: Agentes 8, 9, 10, 12, 17</li></ul></div><p>No subconjunto 1 a sa&#65533;&#65533;da apenas pode ser efectuada atraves do no 6 no qual existe 80% de probabilidade de retencao contra 20% de probabilidade de saida.</p><p>No subconjunto 4 observa-se o mesmo problema do subconjunto 1 em que o token apenas pode sair do conjunto atraves do no 12 com 20% de saida contra 80% de retencao.</p><p>Nos subconjuntos 2 e 3 existe maior circulacao do token.</p><p>Se o token comecar num subconjunto propicio a manter o mesmo, o tempo de convergencia para as probabilidades de equilibrio sera maior pois nao existe um boa circulacao do token</p><p>Se o token comecar num subconjunto com maior fluidez de circulacao, o tempo de convergencia para as probabilidades de equilibrio sera menor.</p><pre class="codeinput"><span class="comment">% 2d i)</span>
+close <span class="string">all</span>;
+
+<span class="comment">%Alteracao dos pesos das ligacoes de maneira a melhorar a situacao</span>
+<span class="comment">%- diminuicao dos pesos das ligacoes que formam os subgrupos onde o token passa mais tempo</span>
+<span class="comment">%- aumento dos pesos das ligacoes que formam os subgrupos onde o token passa menos tempo</span>
+Pi = [
+    [1, 6, 0.3];
+    [1, 7, 0.35];
+    [1, 20, 0.35];
+    [3, 12, 0.5];
+    [3, 19, 0.5];
+    [6, 1, 0.3];
+    [6, 11, 0.35];
+    [6, 15, 0.35];
+    [12, 3, 0.3];
+    [12, 8, 0.35];
+    [12, 10, 0.35]
+];
+
+Pc = P;
+
+Pi_length = size(Pi, 1);
+
+<span class="comment">%Alteracao da matriz de pesos dada</span>
+<span class="keyword">for</span> n=1:Pi_length
+    Pc(Pi(n, 1), Pi(n, 2)) = Pi(n, 3);
+<span class="keyword">end</span>
+
+<span class="comment">%Calcula os vectores e valores proprios da matriz Pc transposta</span>
+[v_c, u_c] = eig(Pc');
+
+<span class="comment">%Encontra o indice do valor proprio 1</span>
+[~, i_c] = min(abs(u_c(:) - 1));
+
+i_c = mod(i_c, size(u_c, 1));
+
+<span class="comment">%Normaliza o vector</span>
+v_c_norm = v_c(:, i_c) / sum(v_c(:, i_c));
+
+figure;
+bar([v_norm, v_c_norm]);
+grid <span class="string">on</span>;
+title(<span class="string">'Probabilidades Limide da Cadeia de Markov'</span>);
+xlabel(<span class="string">'Estados'</span>);
+ylabel(<span class="string">'Probabilidade'</span>);
+legend(<span class="string">'v_{norm} original'</span>, <span class="string">'v_{norm} melhor'</span>, <span class="string">'Location'</span>, <span class="string">'northeastoutside'</span>);
+
+<span class="comment">%Potencia da fonte</span>
+Pw0 = 100;
+<span class="comment">%Desvio padrao</span>
+sig = 10^-2;
+
+<span class="comment">%Numero de medidas</span>
+M = 1000;
+
+No = round(v_c_norm.*M);
+a = zeros(sum(No), 2);
+k1 = 1;
+k2 = 0;
+
+<span class="comment">%Cria observacoes para cada ancora</span>
+<span class="keyword">for</span> i=1:size(No)
+  k2 = k2+No(i);
+  a(k1:k2,:) = repmat([nodePos(i,2) nodePos(i, 3)], No(i), 1);
+  k1 = k1 + No(i);
+<span class="keyword">end</span>
+
+<span class="comment">%Obtem a posicao da fonte</span>
+x = sourcePos';
+
+D = squareform(pdist([x zeros(size(x)) a']'));
+
+<span class="comment">%Calcula distancia entre fonte e a ancora</span>
+d = D(1, 3:end);
+<span class="comment">%Calcula normas das acoras</span>
+an = D(2, 3:end);
+
+<span class="comment">%Calcula potencia nas ancoras sem ruido</span>
+Pw = Pw0 ./ (d.^2);
+<span class="comment">%Aplica ruido</span>
+Pw = Pw.*exp(sig*rand(size(Pw)));
+QPw = 1e-2;
+<span class="comment">%Quantitiza as potencias</span>
+Pw = QPw*round(Pw/QPw);
+
+<span class="comment">%Aplica metodo dos minimos quadrados</span>
+A = [-2*repmat(Pw, [2 1]).*a'; -ones(size(Pw)); Pw]';
+b = (-Pw.*(an.^2))';
+
+z = A\b;
+xe = z(1:2);
+fprintf(<span class="string">'Distancia entre posicao real e calculada da fonte (Melhorada): %f\n'</span>, norm(x-xe));
+
+figure;
+
+plot(a*[1; 1i],<span class="string">'o'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Ancoras'</span>);
+hold <span class="string">all</span>;
+grid <span class="string">on</span>;
+plot(x'*[1; 1i],<span class="string">'x'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Real'</span>);
+plot(xe'*[1; 1i],<span class="string">'s'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Calculada'</span>);
+axis(<span class="string">'square'</span>)
+title(<span class="string">'Estimativa da posicao da fonte (Melhorada)'</span>);
+legend(<span class="string">'Location'</span>, <span class="string">'northeastoutside'</span>);
+
+<span class="comment">% RLS formulation (one-shot)</span>
+RlsPar = struct(<span class="string">'lam'</span>,1);
+[e,w,RlsPar] = qrrls(A,b,RlsPar);
+fprintf(<span class="string">'Erro da Recursive Least Squares (one-shot) (Melhorada): %f\n'</span>, norm(z-w));
+
+<span class="comment">% RLS formulation (incremental)</span>
+RlsPar = struct(<span class="string">'lam'</span>,1);
+<span class="keyword">for</span> i = 1:size(A,1)
+  [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
+<span class="keyword">end</span>
+fprintf(<span class="string">'Erro da Recursive Least Squares (incremental) (Melhorada): %f\n'</span>, norm(z-w));
+
+state = repmat([1:20], ttotal, 1);
+t = repmat(linspace(0, ttotal, ttotal), 20, 1);
+prob = zeros(20, ttotal);
+
+<span class="keyword">for</span> n = 1:i_size+2
+    prob(:, 1) = prob0(:, n);
+
+    <span class="keyword">for</span> i = 2:ttotal
+        prob(:, i) = prob(:, i-1)'*P;
+    <span class="keyword">end</span>
+
+    figure;
+    plot3(t', state, prob);
+    xlabel(<span class="string">'Tempo [s]'</span>);
+    ylabel(<span class="string">'Estados'</span>);
+    zlabel(<span class="string">'Probabilidades'</span>);
+    <span class="keyword">if</span>(n &lt;= i_size)
+        title(sprintf(<span class="string">'Evolucao das probabilidades para o estado inicial: %d'</span>, i_test(n)));
+    <span class="keyword">elseif</span>(n == i_size+1)
+        title(<span class="string">'Evolucao das probabilidades para distribuicao uniforme'</span>);
+    <span class="keyword">elseif</span>(n == i_size+2)
+        title(<span class="string">'Evolucao das probabilidades para distribuicao de equilibrio'</span>);
+    <span class="keyword">end</span>
+    grid <span class="string">on</span>;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Distancia entre posicao real e calculada da fonte (Melhorada): 0.115780
+Erro da Recursive Least Squares (one-shot) (Melhorada): 0.000158
+Erro da Recursive Least Squares (incremental) (Melhorada): 0.000158
+</pre><img vspace="5" hspace="5" src="e_2d_02.png" alt=""> <img vspace="5" hspace="5" src="e_2d_03.png" alt=""> <img vspace="5" hspace="5" src="e_2d_04.png" alt=""> <img vspace="5" hspace="5" src="e_2d_05.png" alt=""> <img vspace="5" hspace="5" src="e_2d_06.png" alt=""> <img vspace="5" hspace="5" src="e_2d_07.png" alt=""> <img vspace="5" hspace="5" src="e_2d_08.png" alt=""> <img vspace="5" hspace="5" src="e_2d_09.png" alt=""> <img vspace="5" hspace="5" src="e_2d_10.png" alt=""> <img vspace="5" hspace="5" src="e_2d_11.png" alt=""> <p><b>Comentarios:</b> Verifica-se que uma maior fluidez de circulacao do token (caso Melhorado) leva a uma maior precisao na localizacao da fonte, isto deve-se a estimativa da mesma ter a contribuicao de cada um dos estados melhor distribuida e como tal mais medicoes diferentes levando entao a um calculo de posicao mais preciso.</p><p>Este resultado seria ainda melhor com mais testes, de modo a conseguir-se determinar a matriz P "ideal" (homegeneizacao perfeita das probabilidades).</p><pre class="codeinput"><span class="comment">% 2d ii)</span>
+
+<span class="comment">%Alteracao dos pesos das ligacoes de maneira a piorar a situacao</span>
+<span class="comment">%- eliminacao da ligacao (atraves de "jamming") com o subconjunto mais proximo da posicao real</span>
+Pi = [
+    [3, 12, 0];
+    [3, 19, 1];
+];
+
+Pc = P;
+
+Pi_length = size(Pi, 1);
+
+<span class="comment">%Alteracao da matriz de pesos dada</span>
+<span class="keyword">for</span> n=1:Pi_length
+    Pc(Pi(n, 1), Pi(n, 2)) = Pi(n, 3);
+<span class="keyword">end</span>
+
+<span class="comment">%Calcula os vectores e valores proprios da matriz Pc transposta</span>
+[v_c, u_c] = eig(Pc');
+
+<span class="comment">%Encontra o indice do valor proprio 1</span>
+[~, i_c] = min(abs(u_c(:) - 1));
+
+i_c = mod(i_c, size(u_c, 1));
+
+<span class="comment">%Normaliza o vector</span>
+v_c_norm = v_c(:, i_c) / sum(v_c(:, i_c));
+
+figure;
+bar([v_norm, v_c_norm]);
+grid <span class="string">on</span>;
+title(<span class="string">'Probabilidades Limide da Cadeia de Markov'</span>);
+xlabel(<span class="string">'Estados'</span>);
+ylabel(<span class="string">'Probabilidade'</span>);
+legend(<span class="string">'v_{norm} original'</span>, <span class="string">'v_{norm} jammed'</span>, <span class="string">'Location'</span>, <span class="string">'northeastoutside'</span>);
+
+
+<span class="comment">%Potencia da fonte</span>
+Pw0 = 100;
+<span class="comment">%Desvio padrao</span>
+sig = 10^-2;
+
+<span class="comment">%Numero de medidas</span>
+M = 1000;
+
+No = round(v_c_norm.*M);
+a = zeros(sum(No), 2);
+k1 = 1;
+k2 = 0;
+
+<span class="comment">%Cria observacoes para cada ancora</span>
+<span class="keyword">for</span> i=1:size(No)
+  k2 = k2+No(i);
+  a(k1:k2,:) = repmat([nodePos(i,2) nodePos(i, 3)], No(i), 1);
+  k1 = k1 + No(i);
+<span class="keyword">end</span>
+
+<span class="comment">%Obtem a posicao da fonte</span>
+x = sourcePos';
+
+D = squareform(pdist([x zeros(size(x)) a']'));
+
+<span class="comment">%Calcula distancia entre fonte e a ancora</span>
+d = D(1, 3:end);
+<span class="comment">%Calcula normas das acoras</span>
+an = D(2, 3:end);
+
+<span class="comment">%Calcula potencia nas ancoras sem ruido</span>
+Pw = Pw0 ./ (d.^2);
+<span class="comment">%Aplica ruido</span>
+Pw = Pw.*exp(sig*rand(size(Pw)));
+QPw = 1e-2;
+<span class="comment">%Quantitiza as potencias</span>
+Pw = QPw*round(Pw/QPw);
+
+<span class="comment">%Aplica metodo dos minimos quadrados</span>
+A = [-2*repmat(Pw, [2 1]).*a'; -ones(size(Pw)); Pw]';
+b = (-Pw.*(an.^2))';
+
+z = A\b;
+xe = z(1:2);
+fprintf(<span class="string">'Distancia entre posicao real e calculada da fonte (Jammed): %f\n'</span>, norm(x-xe));
+
+figure;
+
+plot(a*[1; 1i],<span class="string">'o'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Ancoras'</span>);
+hold <span class="string">all</span>;
+grid <span class="string">on</span>;
+plot(x'*[1; 1i],<span class="string">'x'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Real'</span>);
+plot(xe'*[1; 1i],<span class="string">'s'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Calculada'</span>);
+axis(<span class="string">'square'</span>)
+title(<span class="string">'Estimativa da posicao da fonte (Jammed)'</span>);
+legend(<span class="string">'Location'</span>, <span class="string">'northeastoutside'</span>);
+
+<span class="comment">% RLS formulation (one-shot)</span>
+RlsPar = struct(<span class="string">'lam'</span>,1);
+[e,w,RlsPar] = qrrls(A,b,RlsPar);
+fprintf(<span class="string">'Erro da Recursive Least Squares (one-shot) (Jammed): %f\n'</span>, norm(z-w));
+
+<span class="comment">% RLS formulation (incremental)</span>
+RlsPar = struct(<span class="string">'lam'</span>,1);
+<span class="keyword">for</span> i = 1:size(A,1)
+  [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
+<span class="keyword">end</span>
+fprintf(<span class="string">'Erro da Recursive Least Squares (incremental) (Jammed): %f\n'</span>, norm(z-w));
+
+state = repmat([1:20], ttotal, 1);
+t = repmat(linspace(0, ttotal, ttotal), 20, 1);
+prob = zeros(20, ttotal);
+
+<span class="keyword">for</span> n = 1:i_size+2
+    prob(:, 1) = prob0(:, n);
+
+    <span class="keyword">for</span> i = 2:ttotal
+        prob(:, i) = prob(:, i-1)'*P;
+    <span class="keyword">end</span>
+
+    figure;
+    plot3(t', state, prob);
+    xlabel(<span class="string">'Tempo [s]'</span>);
+    ylabel(<span class="string">'Estados'</span>);
+    zlabel(<span class="string">'Probabilidades'</span>);
+    <span class="keyword">if</span>(n &lt;= i_size)
+        title(sprintf(<span class="string">'Evolucao das probabilidades para o estado inicial: %d'</span>, i_test(n)));
+    <span class="keyword">elseif</span>(n == i_size+1)
+        title(<span class="string">'Evolucao das probabilidades para distribuicao uniforme'</span>);
+    <span class="keyword">elseif</span>(n == i_size+2)
+        title(<span class="string">'Evolucao das probabilidades para distribuicao de equilibrio'</span>);
+    <span class="keyword">end</span>
+    grid <span class="string">on</span>;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Distancia entre posicao real e calculada da fonte (Jammed): 8.314807
+Erro da Recursive Least Squares (one-shot) (Jammed): 0.001754
+Erro da Recursive Least Squares (incremental) (Jammed): 0.001754
+</pre><img vspace="5" hspace="5" src="e_2d_12.png" alt=""> <img vspace="5" hspace="5" src="e_2d_13.png" alt=""> <img vspace="5" hspace="5" src="e_2d_14.png" alt=""> <img vspace="5" hspace="5" src="e_2d_15.png" alt=""> <img vspace="5" hspace="5" src="e_2d_16.png" alt=""> <img vspace="5" hspace="5" src="e_2d_17.png" alt=""> <img vspace="5" hspace="5" src="e_2d_18.png" alt=""> <img vspace="5" hspace="5" src="e_2d_19.png" alt=""> <img vspace="5" hspace="5" src="e_2d_20.png" alt=""> <img vspace="5" hspace="5" src="e_2d_21.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Exercicio 2d
+%Reset do ambiente de trabalho
+close all;
+
+MarkovChainDraw();
+
+%%
+% *Comentarios:*
+% Observando o grafo e analisando os pesos a ele associado podemos concluir que existem certos subconjuntos onde o token circula durante mais tempo.
+%
+% Estes conjuntos sao constituidos pelos seguintes agentes:
+% 
+% * *Subconjunto 1* : Agentes 5, 6, 11 e 15
+% * *Subconjunto 2* : Agentes 1, 7, 14, 16, 18, 20
+% * *Subconjunto 3* : Agentes 2, 3, 4, 13, 19
+% * *Subconjunto 4*: Agentes 8, 9, 10, 12, 17
+%
+% No subconjunto 1 a sa��da apenas pode ser efectuada atraves do no 6 no qual existe 80% de probabilidade de retencao contra 20% de probabilidade de saida.
+% 
+% No subconjunto 4 observa-se o mesmo problema do subconjunto 1 em que o token apenas pode sair do conjunto atraves do no 12 com 20% de saida contra 80% de retencao.
+%
+% Nos subconjuntos 2 e 3 existe maior circulacao do token.
+%
+% Se o token comecar num subconjunto propicio a manter o mesmo, o tempo de convergencia para as probabilidades de equilibrio sera maior pois nao existe um boa circulacao do token
+%
+% Se o token comecar num subconjunto com maior fluidez de circulacao, o tempo de convergencia para as probabilidades de equilibrio sera menor.
+
+% 2d i)
+close all;
+
+%Alteracao dos pesos das ligacoes de maneira a melhorar a situacao
+%- diminuicao dos pesos das ligacoes que formam os subgrupos onde o token passa mais tempo
+%- aumento dos pesos das ligacoes que formam os subgrupos onde o token passa menos tempo
+Pi = [ 
+    [1, 6, 0.3]; 
+    [1, 7, 0.35]; 
+    [1, 20, 0.35]; 
+    [3, 12, 0.5]; 
+    [3, 19, 0.5]; 
+    [6, 1, 0.3]; 
+    [6, 11, 0.35]; 
+    [6, 15, 0.35]; 
+    [12, 3, 0.3]; 
+    [12, 8, 0.35]; 
+    [12, 10, 0.35] 
+];
+
+Pc = P;
+
+Pi_length = size(Pi, 1);
+
+%Alteracao da matriz de pesos dada
+for n=1:Pi_length
+    Pc(Pi(n, 1), Pi(n, 2)) = Pi(n, 3);
+end
+
+%Calcula os vectores e valores proprios da matriz Pc transposta
+[v_c, u_c] = eig(Pc');
+
+%Encontra o indice do valor proprio 1
+[~, i_c] = min(abs(u_c(:) - 1));
+
+i_c = mod(i_c, size(u_c, 1));
+
+%Normaliza o vector
+v_c_norm = v_c(:, i_c) / sum(v_c(:, i_c));
+
+figure;
+bar([v_norm, v_c_norm]);
+grid on;
+title('Probabilidades Limide da Cadeia de Markov');
+xlabel('Estados');
+ylabel('Probabilidade');
+legend('v_{norm} original', 'v_{norm} melhor', 'Location', 'northeastoutside');
+
+%Potencia da fonte
+Pw0 = 100;
+%Desvio padrao
+sig = 10^-2;
+
+%Numero de medidas
+M = 1000;
+
+No = round(v_c_norm.*M);
+a = zeros(sum(No), 2);
+k1 = 1;
+k2 = 0;
+
+%Cria observacoes para cada ancora
+for i=1:size(No)
+  k2 = k2+No(i);
+  a(k1:k2,:) = repmat([nodePos(i,2) nodePos(i, 3)], No(i), 1);
+  k1 = k1 + No(i);
+end
+
+%Obtem a posicao da fonte
+x = sourcePos';
+
+D = squareform(pdist([x zeros(size(x)) a']'));
+
+%Calcula distancia entre fonte e a ancora 
+d = D(1, 3:end);
+%Calcula normas das acoras
+an = D(2, 3:end);
+
+%Calcula potencia nas ancoras sem ruido
+Pw = Pw0 ./ (d.^2);
+%Aplica ruido
+Pw = Pw.*exp(sig*rand(size(Pw)));
+QPw = 1e-2;
+%Quantitiza as potencias
+Pw = QPw*round(Pw/QPw);
+
+%Aplica metodo dos minimos quadrados
+A = [-2*repmat(Pw, [2 1]).*a'; -ones(size(Pw)); Pw]';
+b = (-Pw.*(an.^2))';
+
+z = A\b;
+xe = z(1:2);
+fprintf('Distancia entre posicao real e calculada da fonte (Melhorada): %f\n', norm(x-xe));
+
+figure;
+
+plot(a*[1; 1i],'o', 'DisplayName', 'Ancoras'); 
+hold all;
+grid on;
+plot(x'*[1; 1i],'x', 'DisplayName', 'Real'); 
+plot(xe'*[1; 1i],'s', 'DisplayName', 'Calculada');
+axis('square')
+title('Estimativa da posicao da fonte (Melhorada)');
+legend('Location', 'northeastoutside');
+
+% RLS formulation (one-shot)
+RlsPar = struct('lam',1);
+[e,w,RlsPar] = qrrls(A,b,RlsPar);
+fprintf('Erro da Recursive Least Squares (one-shot) (Melhorada): %f\n', norm(z-w));
+
+% RLS formulation (incremental)
+RlsPar = struct('lam',1);
+for i = 1:size(A,1)
+  [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
+end
+fprintf('Erro da Recursive Least Squares (incremental) (Melhorada): %f\n', norm(z-w));
+
+state = repmat([1:20], ttotal, 1);
+t = repmat(linspace(0, ttotal, ttotal), 20, 1);
+prob = zeros(20, ttotal);
+
+for n = 1:i_size+2
+    prob(:, 1) = prob0(:, n);
+
+    for i = 2:ttotal
+        prob(:, i) = prob(:, i-1)'*P;
+    end
+
+    figure;
+    plot3(t', state, prob);
+    xlabel('Tempo [s]');
+    ylabel('Estados');
+    zlabel('Probabilidades');
+    if(n <= i_size)
+        title(sprintf('Evolucao das probabilidades para o estado inicial: %d', i_test(n)));
+    elseif(n == i_size+1)
+        title('Evolucao das probabilidades para distribuicao uniforme');
+    elseif(n == i_size+2)
+        title('Evolucao das probabilidades para distribuicao de equilibrio');
+    end
+    grid on;
+end
+
+%%
+% *Comentarios:*
+% Verifica-se que uma maior fluidez de circulacao do token (caso Melhorado) leva a uma maior precisao na localizacao da fonte, isto deve-se a estimativa
+% da mesma ter a contribuicao de cada um dos estados melhor distribuida e como tal mais medicoes diferentes levando entao a um calculo de posicao mais preciso.
+% 
+% Este resultado seria ainda melhor com mais testes, de modo a conseguir-se determinar a matriz P "ideal" (homegeneizacao perfeita das probabilidades).
+
+% 2d ii)
+
+%Alteracao dos pesos das ligacoes de maneira a piorar a situacao
+%- eliminacao da ligacao (atraves de "jamming") com o subconjunto mais proximo da posicao real
+Pi = [
+    [3, 12, 0]; 
+    [3, 19, 1];
+];
+
+Pc = P;
+
+Pi_length = size(Pi, 1);
+
+%Alteracao da matriz de pesos dada
+for n=1:Pi_length
+    Pc(Pi(n, 1), Pi(n, 2)) = Pi(n, 3);
+end
+
+%Calcula os vectores e valores proprios da matriz Pc transposta
+[v_c, u_c] = eig(Pc');
+
+%Encontra o indice do valor proprio 1
+[~, i_c] = min(abs(u_c(:) - 1));
+
+i_c = mod(i_c, size(u_c, 1));
+
+%Normaliza o vector
+v_c_norm = v_c(:, i_c) / sum(v_c(:, i_c));
+
+figure;
+bar([v_norm, v_c_norm]);
+grid on;
+title('Probabilidades Limide da Cadeia de Markov');
+xlabel('Estados');
+ylabel('Probabilidade');
+legend('v_{norm} original', 'v_{norm} jammed', 'Location', 'northeastoutside');
+
+
+%Potencia da fonte
+Pw0 = 100;
+%Desvio padrao
+sig = 10^-2;
+
+%Numero de medidas
+M = 1000;
+
+No = round(v_c_norm.*M);
+a = zeros(sum(No), 2);
+k1 = 1;
+k2 = 0;
+
+%Cria observacoes para cada ancora
+for i=1:size(No)
+  k2 = k2+No(i);
+  a(k1:k2,:) = repmat([nodePos(i,2) nodePos(i, 3)], No(i), 1);
+  k1 = k1 + No(i);
+end
+
+%Obtem a posicao da fonte
+x = sourcePos';
+
+D = squareform(pdist([x zeros(size(x)) a']'));
+
+%Calcula distancia entre fonte e a ancora 
+d = D(1, 3:end);
+%Calcula normas das acoras
+an = D(2, 3:end);
+
+%Calcula potencia nas ancoras sem ruido
+Pw = Pw0 ./ (d.^2);
+%Aplica ruido
+Pw = Pw.*exp(sig*rand(size(Pw)));
+QPw = 1e-2;
+%Quantitiza as potencias
+Pw = QPw*round(Pw/QPw);
+
+%Aplica metodo dos minimos quadrados
+A = [-2*repmat(Pw, [2 1]).*a'; -ones(size(Pw)); Pw]';
+b = (-Pw.*(an.^2))';
+
+z = A\b;
+xe = z(1:2);
+fprintf('Distancia entre posicao real e calculada da fonte (Jammed): %f\n', norm(x-xe));
+
+figure;
+
+plot(a*[1; 1i],'o', 'DisplayName', 'Ancoras'); 
+hold all;
+grid on;
+plot(x'*[1; 1i],'x', 'DisplayName', 'Real'); 
+plot(xe'*[1; 1i],'s', 'DisplayName', 'Calculada');
+axis('square')
+title('Estimativa da posicao da fonte (Jammed)');
+legend('Location', 'northeastoutside');
+
+% RLS formulation (one-shot)
+RlsPar = struct('lam',1);
+[e,w,RlsPar] = qrrls(A,b,RlsPar);
+fprintf('Erro da Recursive Least Squares (one-shot) (Jammed): %f\n', norm(z-w));
+
+% RLS formulation (incremental)
+RlsPar = struct('lam',1);
+for i = 1:size(A,1)
+  [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
+end
+fprintf('Erro da Recursive Least Squares (incremental) (Jammed): %f\n', norm(z-w));
+
+state = repmat([1:20], ttotal, 1);
+t = repmat(linspace(0, ttotal, ttotal), 20, 1);
+prob = zeros(20, ttotal);
+
+for n = 1:i_size+2
+    prob(:, 1) = prob0(:, n);
+
+    for i = 2:ttotal
+        prob(:, i) = prob(:, i-1)'*P;
+    end
+
+    figure;
+    plot3(t', state, prob);
+    xlabel('Tempo [s]');
+    ylabel('Estados');
+    zlabel('Probabilidades');
+    if(n <= i_size)
+        title(sprintf('Evolucao das probabilidades para o estado inicial: %d', i_test(n)));
+    elseif(n == i_size+1)
+        title('Evolucao das probabilidades para distribuicao uniforme');
+    elseif(n == i_size+2)
+        title('Evolucao das probabilidades para distribuicao de equilibrio');
+    end
+    grid on;
+end
+
+##### SOURCE END #####
+--></body></html>

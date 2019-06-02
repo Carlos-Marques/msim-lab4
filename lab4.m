@@ -1,3 +1,179 @@
+%% Exercicio 2a
+%Reset do ambiente de trabalho
+clear;
+close all;
+
+load MarkovChain;
+
+%Calcula os vectores e valores proprios da matriz P transposta
+[v, u] = eig(P');
+
+%Encontra o indice do valor proprio 1
+[~, i] = min(abs(u(:)-1));
+
+i = mod(i, size(u, 1));
+
+%Normaliza o vector
+v_norm = v(:, i) / sum(v(:, i));
+
+figure();
+bar(v(:, i), 'DisplayName', 'nao normalizado');
+hold on;
+grid on;
+bar(v_norm , 'DisplayName', 'normalizado');
+title('Probabilidades Limide da Cadeia de Markov');
+xlabel('Estados');
+ylabel('Probabilidade');
+legend('Location', 'northeastoutside');
+
+%%
+% *Comentarios:*
+% Observa-se que os estados com maior probabilidade sao o estado 7 e 19 
+% (9.649%) e que os estados com menor probabilidade são o 8 e o 17 
+% (1.072%). Tal não é surpreendente visto que 7 e 19 
+% pertencem a um subgrupo onde o token customa ficar preso e 
+% 8 e 17 pertencem a um subgrupo onde o token não tende a ficar.
+
+%% Exercicio 2b
+%Reset do ambiente de trabalho
+close all;
+
+%Potencia da fonte
+Pw0 = 100;
+%Desvio padrao
+sig = 10^-1;
+
+%Numero de medidas
+M = 1000;
+
+No = round(v_norm.*M);
+a = zeros(sum(No), 2);
+k1 = 1;
+k2 = 0;
+
+%Cria observacoes para cada ancora
+for i=1:size(No)
+  k2 = k2+No(i);
+  a(k1:k2,:) = repmat([nodePos(i,2) nodePos(i, 3)], No(i), 1);
+  k1 = k1 + No(i);
+end
+
+%Obtem a posicao da fonte
+x = sourcePos';
+
+D = squareform(pdist([x zeros(size(x)) a']'));
+
+%Calcula distancia entre fonte e a ancora 
+d = D(1, 3:end);
+%Calcula normas das acoras
+an = D(2, 3:end);
+
+%Calcula potencia nas ancoras sem ruido
+Pw = Pw0 ./ (d.^2);
+%Aplica ruido
+Pw = Pw.*exp(sig*rand(size(Pw)));
+QPw = 1e-2;
+%Quantitiza as potencias
+Pw = QPw*round(Pw/QPw);
+
+%Aplica metodo dos minimos quadrados
+A = [-2*repmat(Pw, [2 1]).*a'; -ones(size(Pw)); Pw]';
+b = (-Pw.*(an.^2))';
+
+z = A\b;
+xe = z(1:2);
+fprintf('Distancia entre posicao real e calculada da fonte: %f\n', norm(x-xe));
+
+figure;
+
+plot(a*[1; 1i],'o', 'DisplayName', 'Ancoras'); 
+hold all;
+grid on;
+plot(x'*[1; 1i],'x', 'DisplayName', 'Real'); 
+plot(xe'*[1; 1i],'s', 'DisplayName', 'Calculada');
+axis('square')
+title('Estimativa da posicao da fonte');
+legend('Location', 'northeastoutside');
+
+% RLS formulation (one-shot)
+RlsPar = struct('lam',1);
+[e,w,RlsPar] = qrrls(A,b,RlsPar);
+fprintf('Erro da Recursive Least Squares (one-shot): %f\n', norm(z-w));
+
+% RLS formulation (incremental)
+RlsPar = struct('lam',1);
+for i = 1:size(A,1)
+  [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
+end
+fprintf('Erro da Recursive Least Squares (incremental): %f\n', norm(z-w));
+
+%%
+% *Comentarios:*
+% A posicao calculada (representada pelo quadrado) aproxima-se da posicao real (representada pelo x) a menos de um erro que pode ser justificado 
+% devido ao ruído introduzido no calculo da potencia.
+
+%% Exercicio 2c
+%Reset do ambiente de trabalho
+close all;
+
+%Iteracoes
+ttotal = 250;
+
+%Vectores para o plot3
+state = repmat([1:20], ttotal, 1);
+t = repmat(linspace(0, ttotal, ttotal), 20, 1);
+
+%Matriz para guardar probabilidades
+prob = zeros(20, ttotal);
+
+%Indices para testar como estado inicial
+i_test = [1 2 4 6 8 10];
+
+%Calcula numero de indices individuais a ser testados
+[~, i_size] = size(i_test); 
+
+%Matriz de varios conjuntos de probabilidades a serem testadas
+prob0 = zeros(20, i_size+2);
+
+%Define indices a serem alterados para estados iniciais
+for n = 1:i_size
+    prob0(i_test(n), n) = 1;
+end
+
+%Caso de probabilidade inicial com distribuicao uniforme
+prob0(:, i_size+1) = 1/20;
+
+%Caso de probabilidade inicial com distribuicao de equilibrio
+prob0(:, i_size+2) = v_norm;
+
+for n = 1:i_size+2
+    prob(:, 1) = prob0(:, n);
+
+    %Simulacao para condicoes iniciais escolhidas
+    for i = 2:ttotal
+        prob(:, i) = prob(:, i-1)'*P;
+    end
+
+    figure;
+    plot3(t', state, prob);
+    xlabel('Tempo [s]');
+    ylabel('Estados');
+    zlabel('Probabilidades');
+    if(n <= i_size)
+        title(sprintf('Evolucao das probabilidades para o estado inicial: %d', i_test(n)));
+    elseif(n == i_size+1)
+        title('Evolucao das probabilidades para distribuicao uniforme');
+    elseif(n == i_size+2)
+        title('Evolucao das probabilidades para distribuicao de equilibrio');
+    end
+    grid on;
+end
+
+%%
+% *Comentarios:*
+% Atraves da analise dos graficos podemos concluir que dado um tempo suficientemente grande as probabilidades de cada estado tendem para um certo valor limite,
+% que são aproximadamente iguais aos valores obtidos na pergunta 2a
+
 %% Exercicio 2d
 %Reset do ambiente de trabalho
 close all;
@@ -150,7 +326,7 @@ for n = 1:i_size+2
     prob(:, 1) = prob0(:, n);
 
     for i = 2:ttotal
-        prob(:, i) = prob(:, i-1)'*P;
+        prob(:, i) = prob(:, i-1)'*Pc;
     end
 
     figure;
@@ -291,7 +467,7 @@ for n = 1:i_size+2
     prob(:, 1) = prob0(:, n);
 
     for i = 2:ttotal
-        prob(:, i) = prob(:, i-1)'*P;
+        prob(:, i) = prob(:, i-1)'*Pc;
     end
 
     figure;

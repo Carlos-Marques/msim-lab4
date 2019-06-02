@@ -25,3 +25,11 @@ title('Probabilidades Limide da Cadeia de Markov');
 xlabel('Estados');
 ylabel('Probabilidade');
 legend('Location', 'northeastoutside');
+
+%%
+% *Comentarios:*
+% Observa-se que os estados com maior probabilidade sao o estado 7 e 19 
+% (9.649%) e que os estados com menor probabilidade são o 8 e o 17 
+% (1.072%). Tal não é surpreendente visto que 7 e 19 
+% pertencem a um subgrupo onde o token customa ficar preso e 
+% 8 e 17 pertencem a um subgrupo onde o token não tende a ficar.

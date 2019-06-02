@@ -70,3 +70,8 @@ for i = 1:size(A,1)
   [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
 end
 fprintf('Erro da Recursive Least Squares (incremental): %f\n', norm(z-w));
+
+%%
+% *Comentarios:*
+% A posicao calculada (representada pelo quadrado) aproxima-se da posicao real (representada pelo x) a menos de um erro que pode ser justificado 
+% devido ao ruído introduzido no calculo da potencia.

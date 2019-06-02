@@ -42,7 +42,7 @@ for n = 1:i_size+2
 
     figure;
     plot3(t', state, prob);
-    xlabel('Tempo');
+    xlabel('Tempo [s]');
     ylabel('Estados');
     zlabel('Probabilidades');
     if(n <= i_size)
@@ -54,3 +54,8 @@ for n = 1:i_size+2
     end
     grid on;
 end
+
+%%
+% *Comentarios:*
+% Atraves da analise dos graficos podemos concluir que dado um tempo suficientemente grande as probabilidades de cada estado tendem para um certo valor limite,
+% que são aproximadamente iguais aos valores obtidos na pergunta 2a
