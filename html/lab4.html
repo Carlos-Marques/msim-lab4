@@ -163,9 +163,9 @@ RlsPar = struct(<span class="string">'lam'</span>,1);
   [e,w,RlsPar] = qrrls(A(i,:),b(i),RlsPar);
 <span class="keyword">end</span>
 fprintf(<span class="string">'Erro da Recursive Least Squares (incremental): %f\n'</span>, norm(z-w));
-</pre><pre class="codeoutput">Distancia entre posicao real e calculada da fonte: 0.912076
-Erro da Recursive Least Squares (one-shot): 0.000355
-Erro da Recursive Least Squares (incremental): 0.000355
+</pre><pre class="codeoutput">Distancia entre posicao real e calculada da fonte: 0.935891
+Erro da Recursive Least Squares (one-shot): 0.000353
+Erro da Recursive Least Squares (incremental): 0.000353
 </pre><img vspace="5" hspace="5" src="lab4_02.png" alt=""> <p><b>Comentarios:</b> A posicao calculada (representada pelo quadrado) aproxima-se da posicao real (representada pelo x) a menos de um erro que pode ser justificado devido ao ru&#65533;&#65533;do introduzido no calculo da potencia.</p><h2 id="5">Exercicio 2c</h2><pre class="codeinput"><span class="comment">%Reset do ambiente de trabalho</span>
 close <span class="string">all</span>;
 
@@ -367,7 +367,7 @@ prob = zeros(20, ttotal);
     <span class="keyword">end</span>
     grid <span class="string">on</span>;
 <span class="keyword">end</span>
-</pre><pre class="codeoutput">Distancia entre posicao real e calculada da fonte (Melhorada): 0.117185
+</pre><pre class="codeoutput">Distancia entre posicao real e calculada da fonte (Melhorada): 0.115312
 Erro da Recursive Least Squares (one-shot) (Melhorada): 0.000158
 Erro da Recursive Least Squares (incremental) (Melhorada): 0.000158
 </pre><img vspace="5" hspace="5" src="lab4_12.png" alt=""> <img vspace="5" hspace="5" src="lab4_13.png" alt=""> <img vspace="5" hspace="5" src="lab4_14.png" alt=""> <img vspace="5" hspace="5" src="lab4_15.png" alt=""> <img vspace="5" hspace="5" src="lab4_16.png" alt=""> <img vspace="5" hspace="5" src="lab4_17.png" alt=""> <img vspace="5" hspace="5" src="lab4_18.png" alt=""> <img vspace="5" hspace="5" src="lab4_19.png" alt=""> <img vspace="5" hspace="5" src="lab4_20.png" alt=""> <img vspace="5" hspace="5" src="lab4_21.png" alt=""> <p><b>Comentarios:</b></p><p>Verifica-se que uma maior fluidez de circulacao do token (caso Melhorado) leva a uma maior precisao na localizacao da fonte, isto deve-se a estimativa da mesma ter a contribuicao de cada um dos estados melhor distribuida e como tal mais medicoes diferentes levando entao a um calculo de posicao mais preciso.</p><p>Este resultado seria ainda melhor com mais testes, de modo a conseguir-se determinar a matriz P "ideal" (homegeneizacao perfeita das probabilidades).</p><pre class="codeinput"><span class="comment">% 2d ii)</span>
